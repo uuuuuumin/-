@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>원의 방정식으로 원 그리기</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+        canvas {
+            border: 1px solid #000;
+            margin-top: 20px;
+        }
+        input, button {
+            margin: 10px;
+            padding: 10px;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+    <h1>원의 방정식으로 원 그리기</h1>
+    <input type="number" id="radiusInput" placeholder="반지름 입력" min="1">
+    <input type="number" id="centerXInput" placeholder="중심 X좌표 입력">
+    <input type="number" id="centerYInput" placeholder="중심 Y좌표 입력">
+    <button onclick="drawCircle()">그리기</button>
+    <canvas id="circleCanvas" width="400" height="400"></canvas>
+
+    <script>
+        function drawCircle() {
+            const radius = Number(document.getElementById('radiusInput').value);
+            const centerX = Number(document.getElementById('centerXInput').value);
+            const centerY = Number(document.getElementById('centerYInput').value);
+            const canvas = document.getElementById('circleCanvas');
+            const ctx = canvas.getContext('2d');
+
+            // 입력값 확인
+            if (isNaN(radius) || radius <= 0) {
+                alert('유효한 반지름을 입력하세요.');
+                return;
+            }
+
+            // 캔버스를 초기화
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // 원 그리기: (x - h)² + (y - k)² = r²
+            ctx.beginPath();
+            ctx.arc(centerX + canvas.width / 2, centerY + canvas.height / 2, radius, 0, Math.PI * 2);
+            ctx.stroke();
+
+            // 방정식 설명 텍스트 출력
+            ctx.font = '16px Arial';
+            ctx.fillStyle = 'black';
+            ctx.fillText(`방정식: (x - ${centerX})² + (y - ${centerY})² = ${radius}²`, 10, 20);
+            ctx.fillText(`중심: (${centerX}, ${centerY})`, 10, 40);
+            ctx.fillText(`반지름: ${radius}`, 10, 60);
+        }
+    </script>
+</body>
+</html>
